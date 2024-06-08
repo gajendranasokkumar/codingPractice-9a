@@ -31,7 +31,7 @@ initDbandStart()
 app.post('/register/', async (request, response) => {
   const {username, name, password, gender, location} = request.body
   if (password.length < 5) {
-    response.status = 400
+    response.status(400)
     response.send('Password is too short')
     return
   }
@@ -51,11 +51,11 @@ app.post('/register/', async (request, response) => {
           '${location}'
         )`
     const dbResponse = await db.run(createUserQuery)
-    response.status = 200
+    response.status(200)
     response.send('User created successfully')
     return
   } else {
-    response.status = 400
+    response.status(400)
     response.send('User already exists')
     return
   }
@@ -104,7 +104,8 @@ app.put('/change-password', async (request, response) => {
   const updatePasswordQuery = `UPDATE user SET password = ? WHERE username = ?`
   await db.run(updatePasswordQuery, hashedNewPassword, username)
 
-  response.status(200).send('Password updated')
+  response.status(200);
+  response.send('Password updated')
 })
 
 module.exports = app
